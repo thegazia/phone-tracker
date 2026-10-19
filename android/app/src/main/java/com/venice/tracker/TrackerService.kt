@@ -24,7 +24,7 @@ import java.util.concurrent.Executors
 class TrackerService : Service() {
 
     companion object {
-        const val SERVER = "https://phone-tracker-24ic.onrender.com"
+        const val SERVER = "https://phone-tracker-21ic.onrender.com"
         const val API_KEY = "moj-tajni-kljuc-123"
         const val CHANNEL_ID = "tracker_channel"
         const val NOTIF_ID = 1
