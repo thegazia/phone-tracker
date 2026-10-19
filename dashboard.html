@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Phone Tracker</title>
+<style>
+  body { font-family: Arial; background:#111; color:#eee; margin:0; padding:20px; }
+  h1 { color:#4da3ff; font-size:20px; margin-top:30px; }
+  .card { background:#1c1c1c; border:1px solid #333; border-radius:8px; padding:10px; margin:8px 0; }
+  .num { color:#888; font-size:12px; }
+  .empty { color:#666; font-style:italic; }
+</style>
+</head>
+<body>
+  <h1>SMS poruke</h1>
+  <div id="sms"></div>
+  <h1>Lokacija</h1>
+  <div id="loc"></div>
+
+<script>
+async function load() {
+  try {
+    const r = await fetch('/api/data');
+    const d = await r.json();
+
+    document.getElementById('sms').innerHTML = d.sms.length
+      ? d.sms.slice().reverse().map(m =>
+          `<div class="card"><b>${m.from || '?'}</b> <span class="num">${m.date || m.received}</span><br>${m.body || ''}</div>`
+        ).join('')
+      : '<div class="empty">Jos nema podataka...</div>';
+
+    document.getElementById('loc').innerHTML = d.locations.length
+      ? d.locations.slice().reverse().map(l =>
+          `<div class="card">${l.lat}, ${l.lng} <span class="num">${l.received}</span></div>`
+        ).join('')
+      : '<div class="empty">Jos nema podataka...</div>';
+  } catch (e) { console.log(e); }
+}
+setInterval(load, 10000);
+load();
+</script>
+</body>
+</html>
